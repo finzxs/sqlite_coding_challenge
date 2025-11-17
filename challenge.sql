@@ -55,3 +55,13 @@ WHERE c.loyalty_status = 'Gold'
 GROUP BY c.city
 ORDER BY gold_customer_count DESC, city ASC;
 
+--step 4+: loyalty distribution by city
+SELECT
+    c.city,
+    SUM(CASE WHEN loyalty_level = 'Gold' THEN 1 ELSE 0 END) AS gold_count,
+    SUM(CASE WHEN loyalty_level = 'Silver' THEN 1 ELSE 0 END) AS silver_count,
+    SUM(CASE WHEN loyalty_level = 'Bronze' THEN 1 ELSE 0 END) AS bronze_count,
+    COUNT(*) AS total_customers
+FROM customers
+GROUP BY city
+ORDER BY gold_count DESC, city ASC;
