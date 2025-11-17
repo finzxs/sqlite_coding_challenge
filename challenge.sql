@@ -1,4 +1,4 @@
---step 1: Write a SQL query to find the top 5 customers who have spent the most money on orders.
+--step 1: top 5 customers who have spent the most money on orders.
 
 SELECT
     c.first_name || ' ' || c.last_name AS customer_name,
@@ -12,7 +12,7 @@ GROUP BY c.id
 ORDER BY total_spend DESC
 LIMIT 5;SELECT * FROM customers LIMIT 5;
 
---step 2: Write a SQL query to find the total revenue generated from each product category.
+--step 2: total revenue generated from each product category.
 SELECT
     p.category,
     SUM(oi.quantity * oi.unit_price) AS revenue
@@ -21,18 +21,6 @@ JOIN products p
     ON p.id = oi.product_id
 JOIN orders o
     ON o.id = oi.order_id
-GROUP BY p.category
-ORDER BY revenue DESC;
-
-SELECT
-    p.category,
-    SUM(oi.quantity * oi.unit_price) AS revenue
-FROM order_items oi
-JOIN products p
-    ON p.id = oi.product_id
-JOIN orders o
-    ON o.id = oi.order_id
-WHERE o.status = 'Delivered'
 GROUP BY p.category
 ORDER BY revenue DESC;
 
@@ -57,3 +45,13 @@ JOIN departments d
     ON d.id = e.department_id
 WHERE e.salary > dept_avg.avg_salary
 ORDER BY d.name, e.salary DESC;
+
+--step 4: Cities with the Most Gold Customers
+SELECT
+    c.city,
+    COUNT(*) AS gold_customer_count
+FROM customers c
+WHERE c.loyalty_status = 'Gold'
+GROUP BY c.city
+ORDER BY gold_customer_count DESC, city ASC;
+
